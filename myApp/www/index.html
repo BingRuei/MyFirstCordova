@@ -1,0 +1,166 @@
+<html>
+  <head>
+  　　<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+  <div style="text-align: center;">
+  <b><span style="font-size: x-large;">神魔體力空間換算小幫手</span></b><br />
+  <form>
+  <div style="text-align: center;">
+  <b style="font-size: x-large;">我想看</b>
+    <select id="IdSelected" style="font-size: x-large;">
+      <option selected="true" value="0">等級</option>
+      <option value="1">體力</option>
+      <option value="2">隊伍空間</option>
+    </select>
+    <br />
+  <b style="font-size: x-large;">數值：</b>
+    <input id="IdValue" name="value" style="font-size: x-large;" type="text" /><br />
+  <input onclick="javascript:func();" style="font-size: x-large;" type="button" value="開始計算" />
+    <input style="font-size: x-large;" type="reset" value="清空" />
+    </div>
+  </form>
+  <div style="text-align: center;">
+  <b>備註：等級上限650、體力上限198、隊伍空間上限181</b>
+  <br />
+  <b><br /></b>
+  <b><span style="font-size: large;"><a href="http://mrraybox.blogspot.tw/2015/02/blog-post_46.html">回到神魔輔助程式清單</a></span></b></div>
+  <script>
+    function func() {
+
+      var varSelected = document.getElementById("IdSelected").value;
+      var varValue = document.getElementById("IdValue").value;
+      if(varValue.length==0) varValue=0;
+      if(parseInt(varValue)>(-1)){
+        switch(varSelected){
+          case '0':
+            if(parseInt(varValue)<=650){
+              if(parseInt(varValue)>=1){
+                Level(varValue);
+              }else{
+                alert('等級下限為1');
+              }
+            }else{
+              alert('等級上限為650');
+            }
+            break;
+          case '1':
+            if(parseInt(varValue)<=198){
+              if(parseInt(varValue)>=30){
+                HP(varValue);
+              }else{
+                alert('體力下限為30');
+              }
+            }else{
+              alert('體力上限為198');
+            }
+            break;
+          case '2':
+            if(parseInt(varValue)<=181){
+              if(parseInt(varValue)>=10){
+                TeamSpace(varValue);
+              }else{
+                alert('隊伍空間下限為10');
+              }
+            }else{
+              alert('隊伍空間上限為181');
+            }
+            break;
+        }
+      }else{
+        alert("請輸入正整數數字小寫");
+      }
+
+    }
+
+    function Level(theValue) {
+      var HP = new Array(0,0,0,0,0,0,0);
+      var TotalHP = 0;
+      var TotalTS = 0;
+
+      if(parseInt(theValue)<=198){
+        HP[0] = (parseInt(theValue)-1)/2+30;
+      }else if(parseInt(theValue)<=297){
+        HP[0] = 128;
+        HP[1] = (parseInt(theValue)-198)/4+1;
+      }else if(parseInt(theValue)<=399){
+        HP[0] = 128;HP[1] = 25;
+        HP[2] = (parseInt(theValue)-297-1)/6+1;
+      }else if(parseInt(theValue)<=447){
+        HP[0] = 128;HP[1] = 25;HP[2] = 17;
+        HP[3] = (parseInt(theValue)-399-1)/8+1;
+      }else if(parseInt(theValue)<=600){
+        HP[0] = 128;HP[1] = 25;HP[2] = 17;HP[3] = 6;
+        HP[4] = (parseInt(theValue)-447-1)/9+1;
+      }else if(parseInt(theValue)<=620){
+        HP[0] = 128;HP[1] = 25;HP[2] = 17;HP[3] = 6;HP[4] = 17;
+        HP[5] = (parseInt(theValue)-600-1)/10+1;
+      }else{
+        HP[0] = 128;HP[1] = 25;HP[2] = 17;HP[3] = 6;HP[4] = 17;HP[5] = 2;
+        HP[6] = (parseInt(theValue)-620-1)/11+1;
+      }
+
+      if(parseInt(theValue)<=199){
+        TotalTS = parseInt(parseInt(theValue)/2)+10;
+      }else if(parseInt(theValue)<=299){
+        TotalTS = parseInt((parseInt(theValue)-199-1)/4)+109+1;
+      }else if(parseInt(theValue)<=395){
+        TotalTS = parseInt((parseInt(theValue)-299-1)/6)+134+1;
+      }else if(parseInt(theValue)<=595){
+        TotalTS = parseInt((parseInt(theValue)-395-1)/8)+150+1;
+      }else if(parseInt(theValue)<=604){
+        TotalTS = parseInt((parseInt(theValue)-595-1)/9)+175+1;
+      }else{
+        TotalTS = parseInt((parseInt(theValue)-604-1)/10)+176+1;
+      }
+
+      for(var i=0;i<HP.length;i++)
+        TotalHP += parseInt(HP[i]);
+
+      alert("等級: "+ theValue +"\n體力: "+TotalHP+"\n隊伍空間: "+TotalTS);
+    }
+
+    function HP(theValue) {
+      if(parseInt(theValue)<=128){
+        theValue = (parseInt(theValue)-30)*2+1;
+      }else if(parseInt(theValue)==129){
+        theValue = 199;
+      }else if(parseInt(theValue)<=153){
+        theValue = (parseInt(theValue)-129)*4+198;
+      }else if(parseInt(theValue)<=170){
+        theValue = (parseInt(theValue)-153-1)*6+297+1;
+      }else if(parseInt(theValue)<=176){
+        theValue = (parseInt(theValue)-170-1)*8+399+1;
+      }else if(parseInt(theValue)<=193){
+        theValue = (parseInt(theValue)-176-1)*9+447+1;
+      }else if(parseInt(theValue)<=195){
+        theValue = (parseInt(theValue)-193-1)*10+600+1;
+      }else{
+        theValue = (parseInt(theValue)-195-1)*11+620+1;
+      }
+      Level(theValue);
+    }
+
+    function TeamSpace(theValue) {
+      if(parseInt(theValue)<=109){
+        theValue = (parseInt(theValue)-10)*2;
+        if(parseInt(theValue)==0) theValue=1;
+      }else if(parseInt(theValue)<=134){
+        theValue = (parseInt(theValue)-109)*4+199-3;
+      }else if(parseInt(theValue)<=150){
+        theValue = (parseInt(theValue)-134)*6+299-5;
+      }else if(parseInt(theValue)<=175){
+        theValue = (parseInt(theValue)-150)*8+395-7;
+      }else if(parseInt(theValue)<=176){
+        theValue = (parseInt(theValue)-175)*9+595-8;
+      }else if(parseInt(theValue)<=178){
+        theValue = (parseInt(theValue)-176)*10+604-9;
+      }else{
+        theValue = (parseInt(theValue)-178)*11+624-10;
+      }
+      Level(theValue);
+    }
+
+  </script>
+  </body>
+  </html>
